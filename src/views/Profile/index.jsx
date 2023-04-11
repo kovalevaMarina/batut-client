@@ -14,6 +14,7 @@ function Profile() {
   const [selectedChallenge, setSelectedChallenge] = useState(null);
   const [acceptances, setAcceptances] = useState([]);
   const tgToken = new URLSearchParams(user).toString();
+  console.log(tgToken);
 
   useEffect(() => {
     if (!user) {

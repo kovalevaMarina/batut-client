@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import Chart from '../../components/Chart';
 import formatTime from '../../components/helper/moment';
 
+import ContextUser from '../../components/store/context';
+
 function Webapp() {
   const [acceptances, setAcceptances] = useState([]);
+
+  const [user] = useContext(ContextUser);
+  const tgToken = new URLSearchParams(user).toString();
+  // console.log(tgToken);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/acceptances`, {
       headers: new Headers({
-        'init-data': window.Telegram.WebApp.initData,
+        // 'init-data': window.Telegram.WebApp.initData,
+        'TG-AUTH': tgToken,
       }),
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log('hello');
+        console.log(json);
         setAcceptances(json);
-      })
-      .catch((error) => {
-        console.log('catch');
       });
   }, []);
 
